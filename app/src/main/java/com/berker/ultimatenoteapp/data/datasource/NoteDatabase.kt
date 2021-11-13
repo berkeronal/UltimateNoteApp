@@ -14,7 +14,8 @@ import com.berker.ultimatenoteapp.domain.model.Note
 //|_________________________________|
 @Database(
     entities = [Note::class],
-    version = 1,
+    version = 2,
+    exportSchema = false
 )
 abstract class NoteDatabase : RoomDatabase() {
 

@@ -31,7 +31,7 @@ class GetNotesUseCase(
                         is Title -> notes.sortedBy { it.title.lowercase() }
                         is CreatedDate -> notes.sortedBy { it.createdDate }
                         is Color -> notes.sortedBy { it.color }
-                        is EditDate -> notes.sortedBy { it.editHistory.last() }
+                        is EditDate -> notes.sortedBy { it.editHistory }
                     }
                 }
                 is Descending -> {
@@ -39,7 +39,7 @@ class GetNotesUseCase(
                         is Title -> notes.sortedByDescending { it.title.lowercase() }
                         is CreatedDate -> notes.sortedByDescending { it.createdDate }
                         is Color -> notes.sortedByDescending { it.color }
-                        is EditDate -> notes.sortedByDescending { it.editHistory.last() }
+                        is EditDate -> notes.sortedByDescending { it.editHistory }
                     }
                 }
             }

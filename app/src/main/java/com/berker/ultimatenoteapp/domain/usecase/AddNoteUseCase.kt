@@ -26,9 +26,7 @@ class AddNoteUseCase(
 
     private fun isNoteValid(note: Note): Boolean {
         note.apply {
-            return if (title.isBlank()) {
-                false
-            } else description != ""
+            return !(title.isBlank() && description.isBlank())
         }
     }
 }
