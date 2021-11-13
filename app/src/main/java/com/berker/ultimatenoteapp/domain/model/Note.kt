@@ -22,3 +22,5 @@ data class Note(
     val editHistory: List<Date>,
     val color: Int,
 )
+
+class InvalidNoteException(message: String) : Exception(message)
