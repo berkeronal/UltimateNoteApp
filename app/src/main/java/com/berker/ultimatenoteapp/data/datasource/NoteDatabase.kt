@@ -19,4 +19,9 @@ import com.berker.ultimatenoteapp.domain.model.Note
 abstract class NoteDatabase : RoomDatabase() {
 
     abstract val noteDao: NoteDao
+
+    companion object {
+
+        const val DATABASE_NAME = "ultimate_notes_db"
+    }
 }
