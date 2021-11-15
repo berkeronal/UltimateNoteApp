@@ -13,8 +13,7 @@
             android:id="@+id/action_noteListFragment_to_noteDetailFragment"
             app:destination="@id/noteDetailFragment"
             app:enterAnim="@anim/slide_in"
-            app:exitAnim="@anim/slide_out"
-            app:popEnterAnim="@anim/slide_in"
+            app:exitAnim="@android:anim/fade_out"
             app:popExitAnim="@anim/slide_out" />
     </fragment>
     <fragment
