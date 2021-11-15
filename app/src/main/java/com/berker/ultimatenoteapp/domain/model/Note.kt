@@ -1,6 +1,5 @@
 package com.berker.ultimatenoteapp.domain.model
 
-import androidx.annotation.IdRes
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.berker.ultimatenoteapp.R
@@ -29,9 +28,17 @@ enum class NoteColor(val value: Int) {
     AQUA(R.color.note_aqua),
     MINT(R.color.note_mint),
     GREEN(R.color.note_green),
-    YELLOW(R.color.note_yellow),
+    ORANGE(R.color.note_orange),
     RED(R.color.note_red),
+}
 
+enum class NoteColorDark(val value: Int) {
+    BLUE_DARK(R.color.note_blue_dark),
+    AQUA_DARK(R.color.note_aqua_dark),
+    MINT_DARK(R.color.note_mint_dark),
+    GREEN_DARK(R.color.note_green_dark),
+    ORANGE_DARK(R.color.note_orange_dark),
+    RED_DARK(R.color.note_red_dark),
 }
 
 class InvalidNoteException(message: String) : Exception(message)

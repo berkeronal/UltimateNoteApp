@@ -1,9 +1,13 @@
 package com.berker.ultimatenoteapp.ui.note.list.adapter
 
-import android.view.View
+import android.annotation.SuppressLint
 import androidx.recyclerview.widget.RecyclerView
+import com.berker.ultimatenoteapp.R
 import com.berker.ultimatenoteapp.databinding.RvItemNoteBinding
 import com.berker.ultimatenoteapp.domain.model.Note
+import com.bumptech.glide.Glide
+import java.text.SimpleDateFormat
+import java.util.*
 
 // _________________________________
 //|  _____________________________  |
@@ -23,15 +27,33 @@ class NoteListViewHolder(
             clickedItem?.invoke(note)
         }
         itemBinding.apply {
-            ivNote.visibility = if (note.imageUrl == "") {
-                View.VISIBLE
+            if (note.imageUrl != "") {
+                Glide.with(root.context)
+                    .load(note.imageUrl)
+                    .centerCrop()
+                    .placeholder(R.drawable.ic_launcher_foreground)
+                    .into(ivNote)
             } else {
-                View.VISIBLE
+                Glide.with(root.context)
+                    .load(R.drawable.ic_launcher_foreground)
+                    .centerCrop()
+                    .into(ivNote)
             }
             cvRootCard.setCardBackgroundColor(itemBinding.root.resources.getColor(note.color, null))
             tvTitle.text = note.title
             tvDescription.text = note.description
-            tvDate.text = note.createdDate.toString()
+            tvDate.text = if (note.createdDate != note.editHistory) {
+                "Edited at : " + convertLongToTime(note.editHistory)
+            } else {
+                convertLongToTime(note.createdDate)
+            }
         }
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    private fun convertLongToTime(time: Long): String {
+        val date = Date(time)
+        val format = SimpleDateFormat("dd.MM.yyy")
+        return format.format(date)
     }
 }

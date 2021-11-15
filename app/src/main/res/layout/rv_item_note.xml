@@ -1,27 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cvRootCard"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="120dp"
         app:cardBackgroundColor="@color/black"
-        app:cardCornerRadius="4dp">
+        app:cardCornerRadius="8dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:padding="@dimen/card_padding">
 
             <ImageView
-                android:contentDescription="@string/note_image_description"
                 android:id="@+id/ivNote"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
-                android:paddingLeft="16dp"
-                android:paddingTop="8dp"
-                android:paddingRight="16dp"
-                android:paddingBottom="8dp"
+                android:contentDescription="@string/note_image_description"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -32,13 +30,16 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
                 android:ellipsize="end"
+                android:includeFontPadding="false"
                 android:maxLines="1"
+                android:paddingHorizontal="8dp"
                 android:textColor="@color/white"
-                android:textSize="16sp"
+                android:textSize="22sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/ivNote"
-                app:layout_constraintTop_toTopOf="@+id/ivNote" />
+                app:layout_constraintTop_toTopOf="@+id/ivNote"
+                tools:text="Lorem Ipsum" />
 
             <TextView
                 android:id="@+id/tvDescription"
@@ -47,20 +48,23 @@
                 android:layout_gravity="start"
                 android:ellipsize="end"
                 android:maxLines="2"
+                android:paddingHorizontal="8dp"
                 android:textColor="@color/white_soft"
-                android:textSize="12sp"
+                android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@id/tvTitle"
-                app:layout_constraintTop_toBottomOf="@id/tvTitle" />
+                app:layout_constraintTop_toBottomOf="@id/tvTitle"
+                tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec euismod, elit id aliquam luctus, mauris nisi dictum metus, eget luctus mi mauris ut sem. Proin tempus consequat metus, vitae mollis arcu elementum vel." />
 
             <TextView
                 android:id="@+id/tvDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/grey"
+                android:textColor="@color/white"
                 android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:text="19/06/1990" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </com.google.android.material.card.MaterialCardView>

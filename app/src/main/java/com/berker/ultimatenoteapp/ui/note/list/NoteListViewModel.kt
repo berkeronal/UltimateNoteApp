@@ -48,7 +48,7 @@ class NoteListViewModel @Inject constructor(
                 }
             }
             is NoteListEvent.Order -> {
-                if (!isOrderDifferent(event.noteOrder)) {
+                if (isOrderDifferent(event.noteOrder)) {
                     return
                 }
                 getNotesWithNoteOrder(event.noteOrder)

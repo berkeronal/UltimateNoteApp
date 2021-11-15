@@ -8,6 +8,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import com.afollestad.materialdialogs.MaterialDialog
+import com.berker.ultimatenoteapp.R
 
 // _________________________________
 //|  _____________________________  |
@@ -32,14 +33,16 @@ abstract class BaseFragment<T : ViewDataBinding> : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.lifecycleOwner = viewLifecycleOwner
         initUi()
+
     }
 
     protected fun Fragment.showErrorDialog(errorMessage: String) {
         MaterialDialog(requireContext()).show {
             cancelable(true)
             cancelOnTouchOutside(true)
-            title(text = "ERROR LOADING CONTENT")
+            title(text = getString(R.string.popup_title))
             message(text = "Error while loading content, try again later. $errorMessage")
             positiveButton(text = "Got it!")
         }
