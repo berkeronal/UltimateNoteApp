@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/basic_nav_graph"
-    app:startDestination="@id/noteListFragment">
+    app:startDestination="@id/splashFragment">
 
     <fragment
         android:id="@+id/noteListFragment"
@@ -10,7 +11,11 @@
         android:label="NoteListFragment" >
         <action
             android:id="@+id/action_noteListFragment_to_noteDetailFragment"
-            app:destination="@id/noteDetailFragment" />
+            app:destination="@id/noteDetailFragment"
+            app:enterAnim="@anim/slide_in"
+            app:exitAnim="@anim/slide_out"
+            app:popEnterAnim="@anim/slide_in"
+            app:popExitAnim="@anim/slide_out" />
     </fragment>
     <fragment
         android:id="@+id/noteDetailFragment"
@@ -18,6 +23,15 @@
         android:label="NoteDetailFragment" >
         <action
             android:id="@+id/action_noteDetailFragment_to_noteListFragment"
+            app:destination="@id/noteListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/splashFragment"
+        android:name="com.berker.ultimatenoteapp.ui.splash.SplashFragment"
+        android:label="fragment_splash"
+        tools:layout="@layout/fragment_splash" >
+        <action
+            android:id="@+id/action_splashFragment_to_noteListFragment"
             app:destination="@id/noteListFragment" />
     </fragment>
 </navigation>

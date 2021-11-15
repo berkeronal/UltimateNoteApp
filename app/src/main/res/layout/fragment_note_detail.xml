@@ -111,10 +111,11 @@
                 android:autofillHints="name"
                 android:background="@color/transparent"
                 android:hint="@string/hint_description"
-                android:inputType="text"
+                android:inputType="textMultiLine"
                 android:maxLines="8"
                 android:textColor="@color/white"
                 android:textSize="@dimen/etv_secondary"
+                android:imeOptions="actionDone"
                 app:layout_constraintTop_toBottomOf="@+id/tilTitle">
 
             </EditText>

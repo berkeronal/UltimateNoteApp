@@ -5,14 +5,11 @@ import android.animation.ArgbEvaluator
 import android.animation.ObjectAnimator
 import android.content.res.ColorStateList
 import android.graphics.drawable.ColorDrawable
-import android.os.Bundle
-import android.transition.ChangeBounds
-import android.transition.Transition
 import android.view.Gravity
-import android.view.animation.AnticipateOvershootInterpolator
 import android.view.animation.LinearInterpolator
 import android.widget.FrameLayout
 import android.widget.LinearLayout
+import androidx.core.content.ContextCompat
 import androidx.core.view.setMargins
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
@@ -32,11 +29,6 @@ import kotlinx.coroutines.flow.collectLatest
 class NoteDetailFragment : BaseFragment<FragmentNoteDetailBinding>() {
 
     private val viewModel: NoteDetailViewModel by viewModels()
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-        }
-    }
 
     override fun initUi() {
         binding.etvTitle.addTextChangedListener(
@@ -119,10 +111,11 @@ class NoteDetailFragment : BaseFragment<FragmentNoteDetailBinding>() {
 
     private fun getBackgroundColor(): Int {
         return try {
-            val lay = binding.clNoteDetailRoot
-            val viewColor = lay.background as ColorDrawable
+            val layout = binding.clNoteDetailRoot
+            val viewColor = layout.background as ColorDrawable
             viewColor.color
         } catch (e: Exception) {
+            showErrorDialog("Error While Getting background color")
             -1
         }
     }
@@ -136,24 +129,26 @@ class NoteDetailFragment : BaseFragment<FragmentNoteDetailBinding>() {
                 setMargins(12)
                 backgroundTintList = ColorStateList.valueOf(getColor(colorId))
                 setOnClickListener {
-                    floatButtonClickActions()
-                    //binding.clNoteDetailRoot.setBackgroundColor(it.backgroundTintList!!.defaultColor)
-                    val animation = ObjectAnimator.ofInt(binding.bgHolder,
-                        "backgroundColor",
-                        getBackgroundColor(),
-                        getColor(colorId)).apply {
-                        interpolator = LinearInterpolator()
-                        duration = 500
-                        setEvaluator(ArgbEvaluator())
-                    }
-                    val animationSet = AnimatorSet()
-                    animationSet.play(animation)
-                    animationSet.start()
-                    changeInputsBackground(colorId)
-                    viewModel.onEvent(NoteDetailEvent.ChangeColor(colorId))
+                    floatButtonClickActions(colorId)
                 }
             }
         }
+    }
+
+    private fun floatButtonClickActions(colorId: Int) {
+        val animation = ObjectAnimator.ofInt(binding.bgHolder,
+            "backgroundColor",
+            getBackgroundColor(),
+            getColor(colorId)).apply {
+            interpolator = LinearInterpolator()
+            duration = 500
+            setEvaluator(ArgbEvaluator())
+        }
+        val animationSet = AnimatorSet()
+        animationSet.play(animation)
+        animationSet.start()
+        changeInputsBackground(colorId)
+        viewModel.onEvent(NoteDetailEvent.ChangeColor(colorId))
     }
 
     private fun changeInputsBackground(colorId: Int) {
@@ -170,11 +165,9 @@ class NoteDetailFragment : BaseFragment<FragmentNoteDetailBinding>() {
         animationSet.start()
     }
 
-    private fun floatButtonClickActions() {
-
-    }
-
     private fun getColor(colorId: Int): Int {
-        return resources.getColor(colorId, null)
+        return context?.let {
+            ContextCompat.getColor(it, colorId)
+        } ?: -1
     }
 }

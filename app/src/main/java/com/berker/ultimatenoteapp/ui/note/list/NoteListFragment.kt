@@ -3,7 +3,6 @@ package com.berker.ultimatenoteapp.ui.note.list
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.Paint
-import android.os.Bundle
 import android.transition.ChangeBounds
 import android.transition.Transition
 import android.transition.TransitionManager
@@ -11,6 +10,7 @@ import android.view.Gravity
 import android.view.View
 import android.view.animation.AnticipateOvershootInterpolator
 import android.widget.LinearLayout
+import android.widget.LinearLayout.LayoutParams
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import androidx.constraintlayout.widget.ConstraintSet
@@ -51,34 +51,15 @@ class NoteListFragment : BaseFragment<FragmentNoteListBinding>() {
         }
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-        }
-    }
-
     override fun initUi() {
         initFilters()
         initRecyclerView()
         initSwipe()
         binding.fabAddNewNote.setOnClickListener {
-            findNavController().navigate(
-                R.id.action_noteListFragment_to_noteDetailFragment,
-                bundleOf(Pair(Constants.PARAM_NOTE_ID, -1)))
+            addNavigateNewNote()
         }
         binding.toolBar.fabFilterNotes.setOnClickListener {
-            val set = ConstraintSet()
-            set.clone(binding.clNoteListRoot)
-            set.setGuidelinePercent(binding.guidelineFilterHolder.id, 0.2f)
-            TransitionManager.beginDelayedTransition(binding.clNoteListRoot, createTransition())
-            binding.rvNotesList.apply {
-                set.connect(id,
-                    ConstraintSet.TOP,
-                    binding.guidelineFilterHolder.id,
-                    ConstraintSet.TOP,
-                    0)
-            }
-            set.applyTo(binding.clNoteListRoot)
+            extendFiltersMenu()
         }
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.noteListState.flowWithLifecycle(
@@ -130,15 +111,16 @@ class NoteListFragment : BaseFragment<FragmentNoteListBinding>() {
 
     private fun createFilterView(noteOrder: String?): View {
         RadioButton(context).apply {
-            layoutParams = LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
+            layoutParams = LayoutParams(
+                LayoutParams.WRAP_CONTENT,
+                LayoutParams.WRAP_CONTENT
             )
             setOnClickListener {
                 //hardcoded
                 when (noteOrder) {
                     "Color" -> {
-                        viewModel.onEvent(NoteListEvent.Order(NoteOrder.Color(OrderType.Ascending)))
+                        viewModel.onEvent(
+                            NoteListEvent.Order(NoteOrder.Color(OrderType.Ascending)))
                     }
                     "CreatedDate" -> {
                         viewModel.onEvent(NoteListEvent.Order(NoteOrder.CreatedDate(OrderType.Ascending)))
@@ -158,9 +140,29 @@ class NoteListFragment : BaseFragment<FragmentNoteListBinding>() {
         }
     }
 
+    private fun addNavigateNewNote() {
+        findNavController().navigate(
+            R.id.action_noteListFragment_to_noteDetailFragment,
+            bundleOf(Pair(Constants.PARAM_NOTE_ID, -1)))
+    }
+
+    private fun extendFiltersMenu() {
+        val set = ConstraintSet()
+        set.clone(binding.clNoteListRoot)
+        set.setGuidelinePercent(binding.guidelineFilterHolder.id, 0.2f)
+        TransitionManager.beginDelayedTransition(binding.clNoteListRoot, createTransition())
+        binding.rvNotesList.apply {
+            set.connect(id,
+                ConstraintSet.TOP,
+                binding.guidelineFilterHolder.id,
+                ConstraintSet.TOP,
+                0)
+        }
+        set.applyTo(binding.clNoteListRoot)
+    }
+
     private fun initSwipe() {
         val simpleCallback = (object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
-            private var isDeleting = false
             override fun onMove(
                 recyclerView: RecyclerView,
                 viewHolder: RecyclerView.ViewHolder,
@@ -207,7 +209,9 @@ class NoteListFragment : BaseFragment<FragmentNoteListBinding>() {
                             paint
                         )
                     }
-                    /* val swipeRatio: Float = 1f - Math.abs(dX) / viewHolder.itemView.width
+                    /*
+                     private var isDeleting = false
+                     val swipeRatio: Float = 1f - Math.abs(dX) / viewHolder.itemView.width
                      if (swipeRatio <= 0.85 && !isDeleting) {
                          isDeleting = true
                          onSwiped(viewHolder, ItemTouchHelper.RIGHT)
